@@ -1,0 +1,57 @@
+<!-- Colocar Imagem da Pasta static -->
+{% load static %}
+
+<!-- w-full: faz com que a Barra de Navegação tenha a largura da Página Inteira -->
+<!-- flex: essa classe é como se fosse um contêiner de itens, ela controla como os itens dentro dela vão se comportar -->
+<!-- justify-between: deixa os itens de forma equidistantes entre eles-->
+<!-- items-center: centraliza os itens na vertical-->
+<!-- py e px (padding): é a distância entre o conteúdo de um elemento e suas bordas (margem interna) -->
+<!-- fixed: diz que a Barra de Navegação vai ficar fixa no topo -->
+<!-- z: serve para criar um eixo z, os valores que forem menores do que o valor que vem depois do traço ficarão atrás -->
+<!-- da Barra de Navegação, enquanto os que forem maiores ficarão a frente -->
+<nav class="w-full flex justify-between items-center py-3 px-4 fixed z-50">
+    <!-- w-6/12: Serve para dividir ao meio a Barra de Navegação-->
+    <div class="w-6/12">
+        <a href="/">
+            <img class="w-2/12" src="{% static 'images/hashflix.png' %}">
+        </a>
+    </div>
+    <!-- flex-nowrap: Colocar os elementos um do lado do outro -->
+    <!-- justify-end: Alinhar à Direita -->
+    <div class="w-6/12 flex flex-nowrap justify-end">
+        {% if user.is_authenticated %}
+            <!-- mr: Margem à Direita -->
+            <div class="mr-2">
+                <!-- Formulário de Pesquisa -->
+                <form method="get" action="{% url 'filme:pesquisafilme' %}">
+                    <!-- rounded-md: Borda Redonda -->
+                    <!-- placeholder: Texto Default -->
+                    <input type="text" class="py-1 px-2 rounded-md text-black" name="query" value="{{ request.GET.query }}" placeholder="Pesquisar">
+                    <input type="submit" value="">
+                </form>
+            </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <div class="mr-2">
+                <a href="{% url 'filme:logout' %}">
+                    <!-- bg-primary_red: Mudar o Fundo do Botão para Vermelho -->
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md">Sair</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="mr-2">
+                <a href="{% url 'filme:login' %}">
+                    <!-- bg-primary_red: Mudar o Fundo do Botão para Vermelho -->
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md">Login</button>
+                </a>
+            </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <div class="mr-2">
+                <a href="{% url 'filme:editarperfil' user.id %}">
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md">Editar Perfil</button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
